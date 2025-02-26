@@ -1,21 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-    let textarea = document.getElementById("myTextarea");
-    let output = []; 
     const myButton = document.getElementById("btn");
-    
-    textarea.addEventListener("input", () => {
-      output = textarea.value.trim().split(/\s+/);
-      if (textarea.value.trim() === "") {
-        output = [];
-      }
-      
-      console.log("Current value:", textarea.value);
-    });
+    let textarea = document.getElementById("myTextarea");
+    let prev = []; 
+    let currentText = ""; 
 
-    function undo(){
-        output.pop()
-        textarea.value = output.join(" ");
-        console.log("Output array:", output);
+    textarea.addEventListener("input", () => {
+        if (textarea.value !== currentText) { 
+            prev.push(currentText); 
+            currentText = textarea.value; 
+        }
+        console.log("History:", prev); 
+    });
+    function undo() {
+        if (prev.length > 0) {
+            currentText = prev.pop();
+            textarea.value = currentText; 
+        }
+        console.log("After Undo:", prev);
     }
 
     myButton.addEventListener("click", (event) => {
